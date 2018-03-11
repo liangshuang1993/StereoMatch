@@ -10,8 +10,8 @@ cv2.namedWindow("left")
 cv2.namedWindow("right")
 cv2.moveWindow("left", 0, 0)
 cv2.moveWindow("right", 400, 0)
-left_camera = cv2.VideoCapture(0)
-right_camera = cv2.VideoCapture(1)
+left_camera = cv2.VideoCapture(1)
+right_camera = cv2.VideoCapture(2)
 
 counter = 0
 utc = time.time()
@@ -29,22 +29,15 @@ while True:
     ret, left_frame = left_camera.read()
     ret, right_frame = right_camera.read()
 
-    # rotate 180
-    rows,cols = right_frame.shape[:2]
-    #第一个参数旋转中心，第二个参数旋转角度，第三个参数：缩放比例
-    M = cv2.getRotationMatrix2D((cols/2,rows/2),180,1)
-    #第三个参数：变换后的图像大小
-    right_frame = cv2.warpAffine(right_frame,M,(cols,rows))
-
     cv2.imshow("left", left_frame)
     cv2.imshow("right", right_frame)
 
     now = time.time()
-    if AUTO and now - utc >= INTERVAL:
-        shot("left", left_frame)
-        shot("right", right_frame)
-        counter += 1
-        utc = now
+    # if AUTO and now - utc >= INTERVAL:
+    #     shot("left", left_frame)
+    #     shot("right", right_frame)
+    #     counter += 1
+    #     utc = now
 
     key = cv2.waitKey(1)
     if key == ord("q"):
